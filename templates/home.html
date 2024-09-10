@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Prediction</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Predict Lagos Apartment Rent</h1>
+    
+    <form id="rent-form">
+        <label for="bedrooms">Number of Bedrooms:</label>
+        <input type="number" id="bedrooms" name="bedrooms" required><br><br>
+        
+        <label for="bathrooms">Number of Bathrooms:</label>
+        <input type="number" id="bathrooms" name="bathrooms" required><br><br>
+        
+        <label for="toilets">Number of Toilets:</label>
+        <input type="number" id="toilets" name="toilets" required><br><br>
+        
+        <label>Status:</label><br>
+        <input type="checkbox" id="newly_built" name="status" value="Newly Built"> Newly Built<br>
+        <input type="checkbox" id="furnished" name="status" value="Furnished"> Furnished<br>
+        <input type="checkbox" id="serviced" name="status" value="Serviced"> Serviced<br><br>
+
+        <label for="city">City:</label>
+        <select id="city" name="city" required>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <button type="submit">Predict</button>
+    </form>
+    
+    <h2 id="result"></h2>
+    
+    <script>
+        $(document).ready(function(){
+            $("#rent-form").on('submit', function(event){
+                event.preventDefault();
+                
+                var formData = {
+                    bedrooms: $("#bedrooms").val(),
+                    bathrooms: $("#bathrooms").val(),
+                    toilets: $("#toilets").val(),
+                    status: [],  // Prepare for multiple statuses
+                    city: $("#city").val()
+                };
+
+                // Add each checked status
+                $("input[name='status']:checked").each(function() {
+                    formData.status.push($(this).val());
+                });
+                
+                $.ajax({
+                    url: "/predict",
+                    type: "POST",
+                    data: formData,
+                    success: function(data){
+                        $("#result").html("Predicted Rent Price: " + data.price);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
