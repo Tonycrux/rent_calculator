@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 import pandas as pd
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 # Load the model and scaler
 rf_model = pickle.load(open('random_forest_model1.pkl', 'rb'))

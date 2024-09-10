@@ -1,0 +1,99 @@
+/* Body with image background and gradient overlay */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(142, 45, 226, 0.7), rgba(74, 0, 224, 0.7)), /* Gradient overlay */
+                url('https://images.unsplash.com/photo-1573662766191-066ba9570a4b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+    background-size: cover;  /* Ensure the background covers the full screen */
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form container */
+.container {
+    width: 400px;
+    padding: 40px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    opacity: 0.95; /* Slight opacity for the form to blend better with the background */
+}
+
+/* Form title */
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Form labels */
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #666;
+    text-align: left;
+}
+
+/* Input fields */
+input, select {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border 0.3s ease;
+}
+
+input:focus, select:focus {
+    border: 1px solid #4a00e0;
+    outline: none;
+}
+
+/* Checkbox Alignment */
+.status-options {
+    display: flex;
+    flex-direction: row;  /* Place items in a row */
+    gap: 20px;            /* Adds spacing between each checkbox-label pair */
+    margin-bottom: 20px;
+}
+
+.status-options label {
+    display: inline-flex; /* Ensure checkbox and label are aligned inline */
+    align-items: center;  /* Vertically center align the checkbox and the label */
+}
+
+.status-options input {
+    margin-right: 5px;    /* Small space between checkbox and label */
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #6a00e0, #3200e2);
+}
+
+/* Result text */
+#result {
+    font-size: 1.5em;
+    color: #333;
+    margin-top: 20px;
+}

@@ -3,57 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent Prediction</title>
+    <title>Rental Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Predict Lagos Apartment Rent</h1>
-    
-    <form id="rent-form">
-        <label for="bedrooms">Number of Bedrooms:</label>
-        <input type="number" id="bedrooms" name="bedrooms" required><br><br>
-        
-        <label for="bathrooms">Number of Bathrooms:</label>
-        <input type="number" id="bathrooms" name="bathrooms" required><br><br>
-        
-        <label for="toilets">Number of Toilets:</label>
-        <input type="number" id="toilets" name="toilets" required><br><br>
-        
-        <label>Status:</label><br>
-        <input type="checkbox" id="newly_built" name="status" value="Newly Built"> Newly Built<br>
-        <input type="checkbox" id="furnished" name="status" value="Furnished"> Furnished<br>
-        <input type="checkbox" id="serviced" name="status" value="Serviced"> Serviced<br><br>
+    <div class="container">
+        <h1>Rental Price Calculator</h1>
+        <h4>(Lagos State)</h4>
 
-        <label for="city">City:</label>
-        <select id="city" name="city" required>
-            {% for city in cities %}
-                <option value="{{ city }}">{{ city }}</option>
-            {% endfor %}
-        </select><br><br>
-        
-        <button type="submit">Predict</button>
-    </form>
-    
-    <h2 id="result"></h2>
-    
+        <form id="rent-form">
+            <!-- Dropdown for Bedrooms -->
+            <div>
+                <label for="bedrooms">Number of Bedrooms:</label>
+                <select id="bedrooms" name="bedrooms" required>
+                    <option value="">-- Select Bedrooms --</option>
+                    {% for i in range(1, 8) %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Dropdown for Bathrooms -->
+            <div>
+                <label for="bathrooms">Number of Bathrooms:</label>
+                <select id="bathrooms" name="bathrooms" required>
+                    <option value="">-- Select Bathrooms --</option>
+                    {% for i in range(1, 8) %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Dropdown for Toilets -->
+            <div>
+                <label for="toilets">Number of Toilets:</label>
+                <select id="toilets" name="toilets" required>
+                    <option value="">-- Select Toilets --</option>
+                    {% for i in range(1, 8) %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Checkbox for Status -->
+            <div>
+                <label>Status:</label>
+                <div class="status-options">
+                    <label><input type="checkbox" id="newly_built" name="status" value="Newly Built"> Newly Built</label>
+                    <label><input type="checkbox" id="furnished" name="status" value="Furnished"> Furnished</label>
+                    <label><input type="checkbox" id="serviced" name="status" value="Serviced"> Serviced</label>
+                </div>
+            </div>
+
+            <!-- Dropdown for City -->
+            <div>
+                <label for="city">Select City:</label>
+                <select id="city" name="city" required>
+                    <option value="">-- Select City --</option>
+                    {% for city in cities %}
+                        <option value="{{ city }}">{{ city }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Predict Rent</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
     <script>
         $(document).ready(function(){
             $("#rent-form").on('submit', function(event){
                 event.preventDefault();
-                
+
                 var formData = {
                     bedrooms: $("#bedrooms").val(),
                     bathrooms: $("#bathrooms").val(),
                     toilets: $("#toilets").val(),
-                    status: [],  // Prepare for multiple statuses
+                    status: [],
                     city: $("#city").val()
                 };
 
-                // Add each checked status
+                // Collect selected status options
                 $("input[name='status']:checked").each(function() {
                     formData.status.push($(this).val());
                 });
-                
+
                 $.ajax({
                     url: "/predict",
                     type: "POST",
